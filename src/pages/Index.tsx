@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { StrengthMeter } from "@/components/StrengthMeter";
 import { CheckItem } from "@/components/CheckItem";
 import { PasswordGenerator } from "@/components/PasswordGenerator";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { analyzePassword, checkPwnedApi } from "@/lib/password-analyzer";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -55,6 +56,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+      <ThemeToggle />
       {/* Animated background */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px] animate-pulse" />
