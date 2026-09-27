@@ -1,24 +1,71 @@
 # Password Guardian
 
-build a web application , i have this password strength analyser project , i need to improve the ui and the backend logic with a new feature that if user enters numbers the numbers should not be in continous like 123 or 678 in the password , if there then say that dont use numbers in continous as it may leads to easy to attack by attackers
+Password Guardian is a client-side password strength analyzer designed to help users create stronger and less predictable passwords.
 
-This project was built with [Lovable](https://lovable.dev).
+It evaluates password characteristics and provides actionable feedback, including warnings about predictable sequential numbers such as `123`, `456`, or `678`.
 
-## Build with Lovable
+## Features
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/35cc294b-2b7f-43b6-85c2-6d230e083b21).
+- Password strength analysis
+- Detection of predictable sequential numbers
+- Real-time password feedback
+- Guidance for creating stronger passwords
+- Modern responsive interface
+- Local password analysis without sending the password to a remote server
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+## Sequential Number Detection
 
-## Development
+Password Guardian identifies predictable numeric sequences such as:
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+- `123`
+- `456`
+- `678`
+- `987`
+- `321`
 
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+These patterns can make passwords easier to guess. When detected, the application recommends avoiding continuous or predictable number sequences.
+
+## Technology
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js
+- npm
+
+### Installation
+
+```bash
+git clone git@github.com:chandureddy142/smart-pass-detector.git
+cd smart-pass-detector
+npm install
+```
+
+### Development
+
+```bash
 npm run dev
 ```
+
+The development server will display the local URL in the terminal.
+
+### Production Build
+
+```bash
+npm run build
+```
+
+## Security and Privacy
+
+Password analysis is designed to happen locally in the browser. Users should never reuse passwords across important accounts, and passwords should not be shared with anyone.
+
+## License
+
+This project is provided for educational and personal use.
