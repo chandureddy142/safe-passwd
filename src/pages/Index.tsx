@@ -1,11 +1,13 @@
-import { useState, useCallback } from "react";
-import { Shield, Eye, EyeOff, Copy, Loader2, AlertTriangle, Sparkles, Wand2 } from "lucide-react";
+import { useState, useCallback, useEffect, useRef, type MouseEvent } from "react";
+import { Shield, Eye, EyeOff, Copy, Loader2, AlertTriangle, Sparkles, Wand2, RotateCcw, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { StrengthMeter } from "@/components/StrengthMeter";
 import { CheckItem } from "@/components/CheckItem";
 import { PasswordGenerator } from "@/components/PasswordGenerator";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { StrengthGuide } from "@/components/StrengthGuide";
+import { PasswordFaq } from "@/components/PasswordFaq";
 import { analyzePassword, checkPwnedApi } from "@/lib/password-analyzer";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -22,7 +24,17 @@ const Index = () => {
     lengthPass: boolean; casePass: boolean; numSpecPass: boolean;
     consecutivePass: boolean; namePass: boolean; score: number; breachCount: number;
   } | null>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const trackPointer = (event: globalThis.MouseEvent) => {
+      backgroundRef.current?.style.setProperty("--mouse-x", `${event.clientX}px`);
+      backgroundRef.current?.style.setProperty("--mouse-y", `${event.clientY}px`);
+    };
+    window.addEventListener("mousemove", trackPointer);
+    return () => window.removeEventListener("mousemove", trackPointer);
+  }, []);
 
   const handleAnalyze = useCallback(async () => {
     if (!password) {
@@ -54,22 +66,41 @@ const Index = () => {
     toast({ title: "Password set!", description: "Generated password applied. Click Analyze to check it." });
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-      <ThemeToggle />
-      {/* Animated background */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-accent/5 blur-[100px] animate-pulse" style={{ animationDelay: "1s" }} />
-        <div className="absolute top-1/3 right-1/4 w-[300px] h-[300px] rounded-full bg-primary/3 blur-[80px] animate-pulse" style={{ animationDelay: "2s" }} />
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `linear-gradient(hsl(var(--primary)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--primary)) 1px, transparent 1px)`,
-          backgroundSize: "60px 60px",
-        }} />
-      </div>
+  const resetAnalyzer = () => {
+    setName("");
+    setPassword("");
+    setAnalyzed(false);
+    setResult(null);
+    setAttemptCount(0);
+    setShowGenerator(false);
+  };
 
-      <div className="w-full max-w-md relative z-10 space-y-5">
+  const scrollToSection = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+    event.preventDefault();
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <div className="relative min-h-screen w-full overflow-x-hidden px-4 pb-12 pt-16">
+      <header className="fixed inset-x-0 top-0 z-50 h-16 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+        <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4 sm:px-6">
+          <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-2" aria-label="Strong Passwd home">
+            <Shield className="h-6 w-6 text-primary" />
+            <span className="hidden text-lg font-bold sm:inline">Strong Passwd</span>
+          </button>
+          <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex" aria-label="Main navigation">
+            <a href="#analyzer" onClick={(event) => scrollToSection(event, "analyzer")} className="transition-colors hover:text-primary">Analyzer</a>
+            <a href="#stats" onClick={(event) => scrollToSection(event, "stats")} className="transition-colors hover:text-primary">Strength Stats</a>
+            <a href="#faq" onClick={(event) => scrollToSection(event, "faq")} className="transition-colors hover:text-primary">FAQ</a>
+          </nav>
+          <ThemeToggle />
+        </div>
+      </header>
+
+      <div ref={backgroundRef} className="pointer-grid fixed inset-0 z-0 pointer-events-none" aria-hidden="true" />
+
+      <main className="relative z-10 mx-auto w-full max-w-4xl">
+        <section id="analyzer" className="mx-auto mb-24 mt-20 w-full max-w-md scroll-mt-28 space-y-5">
         {/* Header */}
         <div className="text-center space-y-3">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 glow-primary mb-1">
@@ -82,7 +113,7 @@ const Index = () => {
         </div>
 
         {/* Form Card */}
-        <div className="rounded-xl border bg-card/80 backdrop-blur-sm p-6 space-y-4 glow-primary">
+          <div className="rounded-lg border bg-card/85 p-6 space-y-4 glow-primary backdrop-blur-sm">
           <div className="space-y-1.5">
             <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Name (optional)</label>
             <Input
@@ -108,25 +139,38 @@ const Index = () => {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
           </div>
 
-          <Button onClick={handleAnalyze} className="w-full font-semibold" disabled={loading}>
+            <div className="flex gap-2">
+            <Button onClick={handleAnalyze} className="flex-1 font-semibold" disabled={loading}>
             {loading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Checking breaches…</> : "Analyze Password"}
           </Button>
+            {(password || name || analyzed) && (
+              <Button variant="outline" size="icon" onClick={resetAnalyzer} aria-label="Reset analyzer" title="Reset analyzer">
+                <RotateCcw className="h-4 w-4" />
+              </Button>
+            )}
+            </div>
         </div>
 
         {/* Tired? Suggestion after 3 attempts */}
         {attemptCount >= 3 && !showGenerator && (
-          <div
+          <button
+            type="button"
             className={cn(
               "rounded-xl border border-primary/20 bg-primary/5 backdrop-blur-sm p-4",
               "flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-500 cursor-pointer hover:bg-primary/10 transition-colors"
             )}
             onClick={() => setShowGenerator(true)}
+            className={cn(
+              "w-full rounded-lg border border-primary/20 bg-primary/5 p-4 text-left backdrop-blur-sm",
+              "flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-500 hover:bg-primary/10 transition-colors"
+            )}
           >
             <div className="shrink-0 w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-primary" />
@@ -136,23 +180,26 @@ const Index = () => {
               <p className="text-xs text-muted-foreground">Use our password generator to create a strong one instantly</p>
             </div>
             <Wand2 className="w-4 h-4 text-primary shrink-0" />
-          </div>
+          </button>
         )}
 
         {/* Password Generator */}
         {showGenerator && (
-          <div className="rounded-xl border bg-card/80 backdrop-blur-sm p-6 space-y-3 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="rounded-lg border bg-card/85 backdrop-blur-sm p-6 space-y-3 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Wand2 className="w-4 h-4 text-primary" />
                 <h2 className="text-sm font-bold font-mono uppercase tracking-wider">Password Generator</h2>
               </div>
-              <button
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
                 onClick={() => setShowGenerator(false)}
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Close password generator"
               >
-                Close
-              </button>
+                <X className="h-4 w-4" />
+              </Button>
             </div>
             <PasswordGenerator onUsePassword={handleUseGenerated} />
           </div>
@@ -160,7 +207,7 @@ const Index = () => {
 
         {/* Results */}
         {analyzed && result && (
-          <div className="rounded-xl border bg-card/80 backdrop-blur-sm p-6 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="rounded-lg border bg-card/85 backdrop-blur-sm p-6 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <StrengthMeter score={result.score} breached={result.breachCount > 0} />
 
             <div className="space-y-2">
@@ -207,7 +254,20 @@ const Index = () => {
         <p className="text-center text-xs text-muted-foreground">
           Your password never leaves your browser. Breach checks use k-anonymity.
         </p>
-      </div>
+        </section>
+
+        <div className="space-y-24">
+          <StrengthGuide />
+          <PasswordFaq />
+        </div>
+      </main>
+
+      <footer className="relative z-10 mx-auto mt-24 max-w-4xl border-t border-border/60 py-8 text-center">
+        <p className="text-sm text-muted-foreground">
+          Built with security in mind by{" "}
+          <a href="https://chandureddy.in/" target="_blank" rel="noreferrer" className="font-semibold text-primary hover:underline">BatMan</a>
+        </p>
+      </footer>
     </div>
   );
 };

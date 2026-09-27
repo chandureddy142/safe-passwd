@@ -5,15 +5,14 @@ interface StrengthExample {
   strength: string;
   time: string;
   tone: string;
-  width: string;
   icon: LucideIcon;
 }
 
 const examples: StrengthExample[] = [
-  { password: "batman", strength: "Very Weak", time: "Seconds", tone: "destructive", width: "15%", icon: ShieldX },
-  { password: "Batman123", strength: "Weak", time: "Minutes to hours", tone: "warning", width: "40%", icon: ShieldAlert },
-  { password: "B@tman_2026", strength: "Good", time: "Months to years", tone: "success", width: "75%", icon: Shield },
-  { password: "$B@tm@n_Pr0t3cts_G0th@m!", strength: "Strong", time: "Centuries", tone: "primary", width: "100%", icon: ShieldCheck },
+  { password: "batman", strength: "Very Weak", time: "Seconds", tone: "destructive", icon: ShieldX },
+  { password: "Batman123", strength: "Weak", time: "Minutes to hours", tone: "warning", icon: ShieldAlert },
+  { password: "B@tman_2026", strength: "Good", time: "Months to years", tone: "success", icon: Shield },
+  { password: "$B@tm@n_Pr0t3cts_G0th@m!", strength: "Strong", time: "Centuries", tone: "primary", icon: ShieldCheck },
 ];
 
 export function StrengthGuide() {
@@ -28,9 +27,9 @@ export function StrengthGuide() {
       </div>
 
       <div className="overflow-hidden rounded-lg border bg-card/80 backdrop-blur-sm">
-        {examples.map(({ password, strength, time, tone, width, icon: Icon }) => (
+        {examples.map(({ password, strength, time, tone, icon: Icon }) => (
           <div key={password} className="strength-row group relative border-b border-border/60 p-4 last:border-0 sm:flex sm:items-center sm:justify-between">
-            <div className={`strength-fill strength-fill-${tone}`} style={{ width }} aria-hidden="true" />
+            <div className={`strength-fill strength-fill-${tone}`} aria-hidden="true" />
             <code className="relative z-10 break-all text-sm sm:text-base">{password}</code>
             <div className="relative z-10 mt-3 flex items-center justify-between gap-5 sm:mt-0 sm:justify-end">
               <div className="text-right">
