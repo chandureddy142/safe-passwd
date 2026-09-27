@@ -26,7 +26,7 @@ export function StrengthGuide() {
         </p>
       </div>
 
-      <div className="overflow-hidden rounded-lg border bg-card/80 backdrop-blur-sm">
+      <div className="overflow-hidden rounded-lg border border-border bg-card text-card-foreground backdrop-blur-sm">
         {examples.map(({ password, strength, time, tone, icon: Icon }) => (
           <div key={password} className="strength-row group relative border-b border-border/60 p-4 last:border-0 sm:flex sm:items-center sm:justify-between">
             <div className={`strength-fill strength-fill-${tone}`} aria-hidden="true" />

@@ -11,20 +11,20 @@
     --background: 210 30% 96%;
     --foreground: 220 20% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 20% 15%;
+    --card: 220 20% 10%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 15%;
+    --popover: 220 20% 10%;
+    --popover-foreground: 0 0% 98%;
 
     --primary: 155 80% 35%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 20% 92%;
-    --secondary-foreground: 220 15% 30%;
+    --secondary: 220 20% 16%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 210 15% 90%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 220 18% 14%;
+    --muted-foreground: 220 10% 70%;
 
     --accent: 155 60% 30%;
     --accent-foreground: 0 0% 100%;
@@ -38,34 +38,35 @@
     --success: 155 80% 35%;
     --success-foreground: 0 0% 100%;
 
-    --border: 210 15% 85%;
-    --input: 210 15% 88%;
+    --border: 220 15% 22%;
+    --input: 220 15% 20%;
     --ring: 155 80% 35%;
 
     --radius: 0.75rem;
 
-    --glow-primary: 0 0 20px hsl(155 80% 35% / 0.15);
-    --glow-strong: 0 0 40px hsl(155 80% 35% / 0.1), 0 0 80px hsl(155 80% 35% / 0.05);
+    --bg-grid-line: hsl(220 15% 82% / 0.5);
+    --bg-dot: hsl(155 80% 35% / 0.12);
+    --bg-glow: radial-gradient(circle 650px at 50% 300px, hsl(155 80% 35% / 0.07), transparent 70%);
   }
 
   .dark {
     --background: 220 20% 7%;
     --foreground: 150 60% 90%;
 
-    --card: 220 18% 10%;
-    --card-foreground: 150 60% 90%;
+    --card: 0 0% 96%;
+    --card-foreground: 220 20% 15%;
 
-    --popover: 220 18% 10%;
-    --popover-foreground: 150 60% 90%;
+    --popover: 0 0% 96%;
+    --popover-foreground: 220 20% 15%;
 
     --primary: 155 100% 45%;
     --primary-foreground: 220 20% 7%;
 
-    --secondary: 220 15% 16%;
-    --secondary-foreground: 150 40% 80%;
+    --secondary: 210 20% 90%;
+    --secondary-foreground: 220 20% 15%;
 
-    --muted: 220 15% 14%;
-    --muted-foreground: 220 10% 50%;
+    --muted: 210 15% 88%;
+    --muted-foreground: 220 10% 40%;
 
     --accent: 155 80% 35%;
     --accent-foreground: 220 20% 7%;
@@ -79,14 +80,18 @@
     --success: 155 100% 45%;
     --success-foreground: 220 20% 7%;
 
-    --border: 220 15% 18%;
-    --input: 220 15% 14%;
+    --border: 210 15% 82%;
+    --input: 210 15% 82%;
     --ring: 155 100% 45%;
 
     --radius: 0.75rem;
 
     --glow-primary: 0 0 20px hsl(155 100% 45% / 0.3);
     --glow-strong: 0 0 40px hsl(155 100% 45% / 0.2), 0 0 80px hsl(155 100% 45% / 0.1);
+
+    --bg-grid-line: hsl(220 15% 18% / 0.6);
+    --bg-dot: hsl(155 100% 45% / 0.18);
+    --bg-glow: radial-gradient(circle 650px at 50% 300px, hsl(155 100% 45% / 0.09), transparent 70%);
   }
 }
 
@@ -116,11 +121,30 @@
     text-shadow: 0 0 10px hsl(155 100% 45% / 0.5);
   }
 
+  @keyframes bg-pulse {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 0.98; }
+  }
+
   .pointer-grid {
-    background-image: radial-gradient(circle, hsl(var(--primary)) 1.5px, transparent 1.5px);
-    background-size: 32px 32px;
-    opacity: 0.12;
-    mask-image: radial-gradient(circle 520px at var(--mouse-x, 50%) var(--mouse-y, 35%), black, transparent);
+    background-image:
+      var(--bg-glow),
+      radial-gradient(circle, var(--bg-dot) 1.2px, transparent 1.2px),
+      linear-gradient(to right, var(--bg-grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--bg-grid-line) 1px, transparent 1px);
+    background-size:
+      100% 100%,
+      28px 28px,
+      56px 56px,
+      56px 56px;
+    background-position:
+      center top,
+      0 0,
+      0 0,
+      0 0;
+    opacity: 0.9;
+    mask-image: radial-gradient(circle 650px at var(--mouse-x, 50%) var(--mouse-y, 35%), black 40%, rgba(0, 0, 0, 0.5) 75%, rgba(0, 0, 0, 0.25) 100%);
+    animation: bg-pulse 10s ease-in-out infinite;
   }
 
   .strength-fill {

@@ -29,7 +29,7 @@ export function PasswordFaq() {
       </div>
       <Accordion type="single" collapsible className="grid gap-3 md:grid-cols-2 md:items-start">
         {questions.map(({ question, answer }, index) => (
-          <AccordionItem key={question} value={`item-${index}`} className="rounded-lg border bg-card/70 px-5 backdrop-blur-sm">
+          <AccordionItem key={question} value={`item-${index}`} className="rounded-lg border border-border bg-card text-card-foreground px-5 backdrop-blur-sm">
             <AccordionTrigger className="text-left text-sm hover:no-underline sm:text-base">{question}</AccordionTrigger>
             <AccordionContent className="leading-relaxed text-muted-foreground">{answer}</AccordionContent>
           </AccordionItem>

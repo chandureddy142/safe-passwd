@@ -90,7 +90,7 @@ export function PasswordGenerator({ onUsePassword }: PasswordGeneratorProps) {
     <div className="space-y-4">
       {/* Generated password display */}
       <div className="relative group">
-        <div className="p-4 rounded-lg bg-secondary border border-border font-mono text-sm break-all tracking-wider text-foreground select-all min-h-[3rem] flex items-center">
+        <div className="p-4 rounded-lg bg-secondary border border-border font-mono text-sm break-all tracking-wider text-secondary-foreground select-all min-h-[3rem] flex items-center">
           {generated}
         </div>
         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
@@ -114,7 +114,7 @@ export function PasswordGenerator({ onUsePassword }: PasswordGeneratorProps) {
         <div className="space-y-2">
           <div className="flex justify-between text-xs font-mono text-muted-foreground">
             <span>Length</span>
-            <span className="text-foreground font-semibold">{length}</span>
+            <span className="text-card-foreground font-semibold">{length}</span>
           </div>
           <Slider
             value={[length]}

@@ -1,21 +1,21 @@
-# Password Guardian
+# Safe Passwd
 
-Password Guardian is a client-side password strength analyzer designed to help users create stronger and less predictable passwords.
+Safe Passwd is a client-side password strength analyzer designed to help users create stronger and less predictable passwords.
 
-It evaluates password characteristics and provides actionable feedback, including warnings about predictable sequential numbers such as `123`, `456`, or `678`.
+It evaluates password characteristics and provides actionable feedback, including warnings about predictable sequential numbers such as `123`, `456`, or `678`, and checks passwords against data breaches using k-Anonymity HIBP API.
 
 ## Features
 
-- Password strength analysis
+- Real-time password strength analysis
 - Detection of predictable sequential numbers
-- Real-time password feedback
-- Guidance for creating stronger passwords
-- Modern responsive interface
-- Local password analysis without sending the password to a remote server
+- Real-time data breach checks (k-Anonymity HIBP API)
+- Password generator
+- Modern responsive interface with dark/light themes
+- Local password analysis without sending passwords to a remote server
 
 ## Sequential Number Detection
 
-Password Guardian identifies predictable numeric sequences such as:
+Safe Passwd identifies predictable numeric sequences such as:
 
 - `123`
 - `456`
@@ -64,7 +64,7 @@ npm run build
 
 ## Security and Privacy
 
-Password analysis is designed to happen locally in the browser. Users should never reuse passwords across important accounts, and passwords should not be shared with anyone.
+Password analysis is designed to happen 100% locally in the browser. Passwords never leave your browser.
 
 ## License
 

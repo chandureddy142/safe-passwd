@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef, type MouseEvent } from "react";
+import { Link } from "react-router-dom";
 import { Shield, Eye, EyeOff, Copy, Loader2, AlertTriangle, Sparkles, Wand2, RotateCcw, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -82,18 +83,27 @@ const Index = () => {
 
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden px-4 pb-12 pt-16">
-      <header className="fixed inset-x-0 top-0 z-50 h-16 border-b border-border/60 bg-background/80 backdrop-blur-xl">
-        <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4 sm:px-6">
-          <Button type="button" variant="ghost" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="gap-2 px-2" aria-label="Strong Passwd home">
-            <Shield className="h-6 w-6 text-primary" />
-            <span className="hidden text-lg font-bold sm:inline">Strong Passwd</span>
-          </Button>
-          <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex" aria-label="Main navigation">
+      <header className="fixed inset-x-0 top-0 z-50 h-16 border-b border-white/10 bg-[#111827] text-white backdrop-blur-xl">
+        <div className="relative flex h-full w-full items-center px-4 sm:px-6">
+          {/* LEFT */}
+          <div className="absolute left-4 sm:left-6 flex items-center">
+            <Button type="button" variant="ghost" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="gap-2 px-2 text-white hover:bg-white/10 hover:text-white" aria-label="Safe Passwd home">
+              <img src="/favicon.svg" alt="" className="h-7 w-7" aria-hidden="true" />
+              <span className="hidden text-lg font-bold sm:inline text-white">Safe Passwd</span>
+            </Button>
+          </div>
+
+          {/* CENTER */}
+          <nav className="absolute left-1/2 -translate-x-1/2 hidden items-center gap-8 text-sm font-medium text-white/80 md:flex" aria-label="Main navigation">
             <a href="#analyzer" onClick={(event) => scrollToSection(event, "analyzer")} className="transition-colors hover:text-primary">Analyzer</a>
             <a href="#stats" onClick={(event) => scrollToSection(event, "stats")} className="transition-colors hover:text-primary">Strength Stats</a>
             <a href="#faq" onClick={(event) => scrollToSection(event, "faq")} className="transition-colors hover:text-primary">FAQ</a>
           </nav>
-          <ThemeToggle />
+
+          {/* RIGHT */}
+          <div className="absolute right-4 sm:right-6 flex items-center">
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
@@ -106,21 +116,21 @@ const Index = () => {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 glow-primary mb-1">
             <Shield className="w-8 h-8 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight">Password Analyzer</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Password Analyzer</h1>
           <p className="text-sm text-muted-foreground max-w-xs mx-auto">
             Check your password strength & breach exposure in real-time
           </p>
         </div>
 
         {/* Form Card */}
-          <div className="rounded-lg border bg-card/85 p-6 space-y-4 glow-primary backdrop-blur-sm">
+          <div className="rounded-lg border border-border bg-card text-card-foreground p-6 space-y-4 glow-primary backdrop-blur-sm">
           <div className="space-y-1.5">
             <label className="text-xs font-mono text-muted-foreground uppercase tracking-wider">Name (optional)</label>
             <Input
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Your name"
-              className="bg-secondary/50 border-border"
+              className="bg-secondary/60 border-border text-card-foreground placeholder:text-muted-foreground"
             />
           </div>
 
@@ -132,7 +142,7 @@ const Index = () => {
                 value={password}
                 onChange={(e) => { setPassword(e.target.value); setAnalyzed(false); }}
                 placeholder="Enter password to analyze"
-                className="bg-secondary/50 border-border pr-10 font-mono"
+                className="bg-secondary/60 border-border pr-10 font-mono text-card-foreground placeholder:text-muted-foreground"
                 onKeyDown={(e) => e.key === "Enter" && handleAnalyze()}
               />
               <Button
@@ -140,7 +150,7 @@ const Index = () => {
                 variant="ghost"
                 size="icon"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-0 top-1/2 h-10 w-10 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                className="absolute right-0 top-1/2 h-10 w-10 -translate-y-1/2 text-muted-foreground hover:text-card-foreground"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -166,15 +176,15 @@ const Index = () => {
             type="button"
             onClick={() => setShowGenerator(true)}
             className={cn(
-              "w-full rounded-lg border border-primary/20 bg-primary/5 p-4 text-left backdrop-blur-sm",
-              "flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-500 hover:bg-primary/10 transition-colors"
+              "w-full rounded-lg border border-primary/20 bg-primary/10 p-4 text-left backdrop-blur-sm",
+              "flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-500 hover:bg-primary/20 transition-colors"
             )}
           >
             <div className="shrink-0 w-10 h-10 rounded-xl bg-primary/15 flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-primary" />
             </div>
             <div className="flex-1">
-              <p className="text-sm font-semibold text-foreground">Tired of guessing? 😅</p>
+              <p className="text-sm font-semibold text-card-foreground">Tired of guessing? 😅</p>
               <p className="text-xs text-muted-foreground">Use our password generator to create a strong one instantly</p>
             </div>
             <Wand2 className="w-4 h-4 text-primary shrink-0" />
@@ -183,11 +193,11 @@ const Index = () => {
 
         {/* Password Generator */}
         {showGenerator && (
-          <div className="rounded-lg border bg-card/85 backdrop-blur-sm p-6 space-y-3 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="rounded-lg border border-border bg-card text-card-foreground backdrop-blur-sm p-6 space-y-3 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Wand2 className="w-4 h-4 text-primary" />
-                <h2 className="text-sm font-bold font-mono uppercase tracking-wider">Password Generator</h2>
+                <h2 className="text-sm font-bold font-mono uppercase tracking-wider text-card-foreground">Password Generator</h2>
               </div>
               <Button
                 type="button"
@@ -195,6 +205,7 @@ const Index = () => {
                 size="icon"
                 onClick={() => setShowGenerator(false)}
                 aria-label="Close password generator"
+                className="text-muted-foreground hover:text-card-foreground"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -205,7 +216,7 @@ const Index = () => {
 
         {/* Results */}
         {analyzed && result && (
-          <div className="rounded-lg border bg-card/85 backdrop-blur-sm p-6 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="rounded-lg border border-border bg-card text-card-foreground backdrop-blur-sm p-6 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <StrengthMeter score={result.score} breached={result.breachCount > 0} />
 
             <div className="space-y-2">
@@ -260,10 +271,21 @@ const Index = () => {
         </div>
       </main>
 
-      <footer className="relative z-10 mx-auto mt-24 max-w-4xl border-t border-border/60 py-8 text-center">
-        <p className="text-sm text-muted-foreground">
+      <footer className="relative z-10 mx-auto mt-24 max-w-4xl border-t border-border/60 py-8 text-center text-sm text-muted-foreground">
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-3">
+          <a href="#analyzer" onClick={(event) => scrollToSection(event, "analyzer")} className="hover:text-foreground transition-colors">Analyzer</a>
+          <span>•</span>
+          <a href="#stats" onClick={(event) => scrollToSection(event, "stats")} className="hover:text-foreground transition-colors">Strength Stats</a>
+          <span>•</span>
+          <a href="#faq" onClick={(event) => scrollToSection(event, "faq")} className="hover:text-foreground transition-colors">FAQ</a>
+          <span>•</span>
+          <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+          <span>•</span>
+          <Link to="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
+        </div>
+        <p>
           Built with security in mind by{" "}
-          <a href="https://chandureddy.in/" target="_blank" rel="noreferrer" className="font-semibold text-primary hover:underline">BatMan</a>
+          <a href="https://chandureddy.in/" target="_blank" rel="noreferrer" className="font-semibold text-primary hover:underline">Chandu Reddy</a>
         </p>
       </footer>
     </div>

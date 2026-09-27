@@ -22,11 +22,11 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={() => setDark((d) => !d)}
-      className="h-9 w-9 border border-border bg-card/70 backdrop-blur-sm"
+      className="h-9 w-9 border border-white/20 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm transition-colors"
       aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
       title={dark ? "Switch to light mode" : "Switch to dark mode"}
     >
-      {dark ? <Sun className="w-4 h-4 text-foreground" /> : <Moon className="w-4 h-4 text-foreground" />}
+      {dark ? <Sun className="w-4 h-4 text-white" /> : <Moon className="w-4 h-4 text-white" />}
     </Button>
   );
 }
