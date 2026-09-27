@@ -43,8 +43,8 @@ These patterns can make passwords easier to guess. When detected, the applicatio
 ### Installation
 
 ```bash
-git clone git@github.com:chandureddy142/smart-pass-detector.git
-cd smart-pass-detector
+git clone git@github.com:chandureddy142/safe-passwd.git
+cd safe-passwd
 npm install
 ```
 
