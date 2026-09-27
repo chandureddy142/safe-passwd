@@ -84,10 +84,10 @@ const Index = () => {
     <div className="relative min-h-screen w-full overflow-x-hidden px-4 pb-12 pt-16">
       <header className="fixed inset-x-0 top-0 z-50 h-16 border-b border-border/60 bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4 sm:px-6">
-          <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="flex items-center gap-2" aria-label="Strong Passwd home">
+          <Button type="button" variant="ghost" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="gap-2 px-2" aria-label="Strong Passwd home">
             <Shield className="h-6 w-6 text-primary" />
             <span className="hidden text-lg font-bold sm:inline">Strong Passwd</span>
-          </button>
+          </Button>
           <nav className="hidden items-center gap-8 text-sm font-medium text-muted-foreground md:flex" aria-label="Main navigation">
             <a href="#analyzer" onClick={(event) => scrollToSection(event, "analyzer")} className="transition-colors hover:text-primary">Analyzer</a>
             <a href="#stats" onClick={(event) => scrollToSection(event, "stats")} className="transition-colors hover:text-primary">Strength Stats</a>
@@ -135,14 +135,16 @@ const Index = () => {
                 className="bg-secondary/50 border-border pr-10 font-mono"
                 onKeyDown={(e) => e.key === "Enter" && handleAnalyze()}
               />
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                className="absolute right-0 top-1/2 h-10 w-10 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
+              </Button>
             </div>
           </div>
 
@@ -162,10 +164,6 @@ const Index = () => {
         {attemptCount >= 3 && !showGenerator && (
           <button
             type="button"
-            className={cn(
-              "rounded-xl border border-primary/20 bg-primary/5 backdrop-blur-sm p-4",
-              "flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-500 cursor-pointer hover:bg-primary/10 transition-colors"
-            )}
             onClick={() => setShowGenerator(true)}
             className={cn(
               "w-full rounded-lg border border-primary/20 bg-primary/5 p-4 text-left backdrop-blur-sm",
