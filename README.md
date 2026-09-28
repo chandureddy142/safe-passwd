@@ -69,3 +69,5 @@ Password analysis is designed to happen 100% locally in the browser. Passwords n
 ## License
 
 This project is provided for educational and personal use.
+
+<!-- Firebase deployment configured -->
